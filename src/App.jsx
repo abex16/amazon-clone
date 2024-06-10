@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+//import React, { useState } from 'react'
+//import Routing from './Pages/Router'
+import React,{useContext, useEffect} from "react";
+import Routing from "./Pages/Router";
+import { DataContext } from "./Components/DataProvider/DataProvider";
+import {Type} from "./Utility/action.type";
+import { auth } from "./Utility/firebase";
 
-function App() {
-  const [count, setCount] = useState(0)
+// import CarouselEffect from './Components/Carousel/Carousel'
+// import Header from './Components/Header/Header'
+// import Catagory from './Components/Catagory/Catagory'
+// import Product from './Components/Product/Product'
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+//  import { Carousel } from 'react-responsive-carousel'
+
+function App() {const [{ user }, dispatch] = useContext(DataContext);
+
+useEffect(() => {
+  auth.onAuthStateChanged((authUser) => {
+    if (authUser) {
+      console.log(authUser);
+      dispatch({
+        type: Type.SET_USER,
+        user: authUser,
+      });
+    } else {
+      dispatch({
+        type: Type.SET_USER,
+        user: null,
+      });
+    }
+  });
+}, []);
+
+return <Routing/>;
 }
 
-export default App
+export default App;
