@@ -71,7 +71,7 @@ await db
 // emptying basket
 console.log("abinet")
 dispatch({type: Type.EMPTY_BASKET})
-console.log("tsedi")
+console.log("abeni")
 //setProcessing(false)
 navigate("/orders", {state:{msg:"you have placed new Order"}})
 setProcessing(false)
